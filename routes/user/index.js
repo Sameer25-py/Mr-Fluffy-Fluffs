@@ -15,6 +15,9 @@ router.get('/',userAuth,user.get);
 router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);
 router.get('/customs',userAuth,customs.getUserCustoms);
+router.get('/check',(req,res,next)=>{
+	res.json({msg:'yea boi its deployed'})
+});
 
 router.post('/login', login);
 router.post('/verify',user.verify);

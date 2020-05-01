@@ -36,7 +36,6 @@ const verify = (req,res) => {
       res.json({status:'True',msg:'Customer already verified.'});
     }
     else {
-      
       utility.patchOne(Customer,credentials,{$set:{Verified:1}},{multi:true})
       .then(customer => res.json({status:'True',msg:'Customer verified.'}))
       .catch(err => res.json(err));
