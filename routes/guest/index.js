@@ -6,8 +6,13 @@ router.post('/login', (req,res) => {
     res.json({status:'False',msg:'Guest already logged in.',GuestId:req.session.GuestId});
   }
   else {
+
+    if((req.session.Username || req.session.Email) && req.session.PassHash) {
+      res.json({status:'False',msg:'User already logged in. Cannot login as a guest now.'});
+      return;
+    }
+
     req.session.GuestId = uuid();
-    console.log(req.session);
     res.json({status:'True',msg:`Guest logged in. Guest ID:${req.session.GuestId}`,GuestId:req.session.GuestId});
   }
 

@@ -4,7 +4,7 @@ const Cart     = require('../../src/models/Cart.model');
 
 const get = (req,res) => {
 
-  let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
 
   utility.getOne(Cart,credentials)
   .then(cart => res.json({status:'True',msg:'Cart found.',data:cart}))

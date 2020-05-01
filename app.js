@@ -1,3 +1,4 @@
+const env_vars      = require('dotenv').config()
 const db            = require('./src/db_connection');
 const express       = require('express');
 const app           = express();
@@ -9,10 +10,10 @@ const api           = require('./routes/api');
 const session_store = require('connect-mongo')(session);
 const {uuid}        = require('uuidv4');
 const mongoose      = require('mongoose');
-
+const morgan        = require('morgan')
 
 const session_options = {
-    secret:process.env.SESSION_SECRET,
+    secret:"123",
     saveUninitialized:true,
     resave:true,
     name:'fluffy_fluffs_session_id',
@@ -29,12 +30,12 @@ const session_options = {
     }
 }
 
+app.use(morgan('dev'))
 app.use(session(session_options));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use('/',index);
 app.use('/api',api);
-
 port = process.env.PORT || 8080;
 
 server.listen(port);

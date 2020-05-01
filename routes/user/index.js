@@ -10,6 +10,7 @@ const userAuth   = require('../../src/authentication/user');
 const adminAuth = require('../../src/authentication/admin');
 
 
+
 router.get('/',userAuth,user.get);
 router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);
@@ -31,5 +32,7 @@ router.delete('/cart/:itemid',userAuth,cart.remove);
 router.delete('/cart',userAuth,cart.removeAll);
 router.delete('/customs/:customid',userAuth,customs.remove);
 router.delete('/customs',userAuth,customs.removeAll);
+
+
 
 module.exports = router;
