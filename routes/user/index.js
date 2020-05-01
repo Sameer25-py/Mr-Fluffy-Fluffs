@@ -19,6 +19,7 @@ router.get('/customs',userAuth,customs.getUserCustoms);
 router.post('/login', login);
 router.post('/verify',user.verify);
 router.post('/logout',userAuth,logout);
+router.post('/resend',user.resend)
 
 
 router.put('/',             user.put);

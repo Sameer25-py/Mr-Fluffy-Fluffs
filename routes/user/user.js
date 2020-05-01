@@ -8,7 +8,7 @@ const twilio = require('twilio')(
   'b8318690acc795bcf97927c599f62b93'  
 )
 
-const generate= (x) => Math.floor(Math.random(1,9) * 99999 + 10000)
+const generate= (x) => Math.floor(Math.random()*90000) + 10000;
 
 const send_login_sms=(x,target,res)=>{
   code= generate(x)
@@ -25,7 +25,9 @@ const send_login_sms=(x,target,res)=>{
   }
 })
 }
-
+const resend= (req,res)=>{
+  send_login_sms(5,req.session.MobileNo,res)
+}
 const verify = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.getOne(Customer,credentials)
@@ -34,15 +36,10 @@ const verify = (req,res) => {
       res.json({status:'True',msg:'Customer already verified.'});
     }
     else {
-      local = 53683
-      if (req.body.customer.code == local){
+      
       utility.patchOne(Customer,credentials,{$set:{Verified:1}},{multi:true})
       .then(customer => res.json({status:'True',msg:'Customer verified.'}))
       .catch(err => res.json(err));
-    }
-    else{
-      res.json({status:'False',msg:'Code Mismatch'})
-    }
     }
   })
   .catch(err => res.json(err));
@@ -68,7 +65,7 @@ const patch = (req,res) => {
 };
 
 const put = (req,res) => {
-  console.log(typeof req.body.customer.MobileNo)
+  
 
   if(!(req.body.customer.Email && req.body.customer.Username && req.body.customer.PassHash && req.body.customer.MobileNo))
   {
@@ -103,8 +100,11 @@ const put = (req,res) => {
 
           };
           utility.put(Customer,data).then(customer => {
+            //setting cookies
             req.session.Username = req.body.customer.Username;
             req.session.PassHash = hash;
+            req.session.MobileNo = req.body.customer.MobileNo;
+
             //send code
             (async function (){
             await send_login_sms(5,req.body.customer.MobileNo,res)
@@ -126,4 +126,4 @@ const get = (req,res) => {
   .catch(err => res.json(err));
 };
 
-module.exports = {remove,patch,put,get,verify};
+module.exports = {remove,patch,put,get,verify,resend};
