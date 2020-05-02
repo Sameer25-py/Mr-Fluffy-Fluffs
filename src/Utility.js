@@ -54,7 +54,7 @@ const patchOne = (model,id,patched_data,options) => {
            rej({status:'False',msg:'Internal Database Error.'})
         }
         else {
-          if(result.nModified) {
+          if(result.Modified) {
             res(result)
           }
           else {

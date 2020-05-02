@@ -5,19 +5,20 @@ const bcrypt   = require('bcrypt');
 const Code   = require('../../src/models/Code.model')
 const twilio = require('twilio')(
   'ACb2072416a86aefe3b8916b81ad59123d',
-  'b8318690acc795bcf97927c599f62b93'  
+  'd3384a8a8595c9c70ca615ff645b9bc4'  
 )
 
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
 
-const send_login_sms=(x,target,res)=>{
+const send_login_sms=(x,target,type,res)=>{
   code= generate(x)
   twilio.messages.create({
   from:'+12512996973',
   to: target,
-  body:`Mr.Fluffy Fluffs\n Login Verification Code: ${code.toString()}`
+  body:`Mr.Fluffy Fluffs\n ${type} Verification Code: ${code.toString()}`
 },(err,message)=>{
   if (err){
+    console.log(err)
    res.json({status:'False',msg:'MobileNo not reachable'})
   }
   else if (message){
@@ -25,9 +26,47 @@ const send_login_sms=(x,target,res)=>{
   }
 })
 }
+
 const resend= (req,res)=>{
-  send_login_sms(5,req.session.MobileNo,res)
+  send_login_sms(5,req.session.MobileNo,'Login',res)
 }
+
+const forget_pass = (req,res)=>{
+  const filter={'Username':req.body.customer.Username,'Email':req.body.customer.Email,'MobileNo':req.body.customer.MobileNo}
+  utility.getOne(Customer,filter).then(match=>{
+          req.session.Username=req.body.customer.Username
+          req.session.MobileNo=req.body.customer.MobileNo
+          send_login_sms(5,req.body.customer.MobileNo,'Forget Password',res)
+  }).catch(err=>{
+    res.json({status:"False",msg:"Invalid credentials"})
+  })
+}
+
+const verify_forget= (req,res) =>{
+  const filter={'Username':req.session.Username,'Email':req.session.Email,'MobileNo':req.session.MobileNo}
+  utility.getOne(Customer,filter).then(customer=>{
+
+    //hashing new pass
+    const salt_iterations = 10;
+      bcrypt.hash(req.body.customer.PassHash,salt_iterations,(err,hash) => {
+        if(err) {
+          res.json({status:'False',msg:'Error hashing user password.'});
+        }
+        else{
+          (async function (){
+            customer.PassHash=hash;
+            await customer.save();
+          }())
+          res.json({status:'True',msg:'Password updated successfully.'})
+        }
+
+  }).catch(err=>{
+    res.json({status:"False",msg:"Customer does not exist"})
+
+  })
+})
+}
+
 const verify = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.getOne(Customer,credentials)
@@ -59,7 +98,7 @@ const patch = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.patchOne(Customer,credentials,{$set:req.body.customer},{multi:true})
   .then(customer => res.json({status:'True',msg:'Customer updated.'}))
-  .catch(err => res.json(err));
+  .catch(err => res.json(err)); 
 
 };
 
@@ -106,7 +145,7 @@ const put = (req,res) => {
 
             //send code
             (async function (){
-            await send_login_sms(5,req.body.customer.MobileNo,res)
+            await send_login_sms(5,req.body.customer.MobileNo,'Login',res)
             }());
           
           }).catch(err => res.json(err))
@@ -125,4 +164,4 @@ const get = (req,res) => {
   .catch(err => res.json(err));
 };
 
-module.exports = {remove,patch,put,get,verify,resend};
+module.exports = {remove,patch,put,get,verify,resend,forget_pass,verify_forget};

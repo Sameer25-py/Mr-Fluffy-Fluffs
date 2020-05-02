@@ -1,7 +1,7 @@
 {
   "name": "mr-fluffy-fluffs",
   "version": "1.0.0",
-  "description": "Backend code for mr fluffy fluffs",
+  "description": "Backend code for Mr.Fluffy Fluffs",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/LUMS-SE-Group-07/Mr-Fluffy-Fluffs.git"
   },
-  "author": "Mohsin Ul Islam",
+  "author": "Mohsin Ul Islam, Muhammad Sameer",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/LUMS-SE-Group-07/Mr-Fluffy-Fluffs/issues"

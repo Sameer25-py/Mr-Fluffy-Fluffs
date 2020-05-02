@@ -8,6 +8,7 @@ const user   = require('./user');
 const reviews = require('./reviews');
 const userAuth   = require('../../src/authentication/user');
 const adminAuth = require('../../src/authentication/admin');
+const exceptAuth = require('../../src/authentication/exception')
 
 
 
@@ -15,14 +16,16 @@ router.get('/',userAuth,user.get);
 router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);
 router.get('/customs',userAuth,customs.getUserCustoms);
-router.get('/check',(req,res,next)=>{
-	res.json({msg:'yea boi its deployed'})
-});
+	router.get('/check',(req,res,next)=>{
+		res.json({msg:'yea boi its deployed'})
+	});
 
 router.post('/login', login);
 router.post('/verify',user.verify);
 router.post('/logout',userAuth,logout);
-router.post('/resend',user.resend)
+router.post('/resend',user.resend);
+router.post('/forget',user.forget_pass)
+
 
 
 router.put('/',             user.put);
@@ -30,6 +33,7 @@ router.put('/cart',userAuth,cart.put);
 router.put('/customs',userAuth, customs.put);
 
 router.patch('/', userAuth ,user.patch);
+router.patch('/verify-forget',exceptAuth,user.verify_forget);
 
 router.delete('/',userAuth,user.remove);
 router.delete('/cart/:itemid',userAuth,cart.remove);
