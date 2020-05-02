@@ -15,15 +15,15 @@ const login = (req,res) => {
       req.session.destroy();
       res.json({status:'False',msg:'Admin credentials has been changed. Please log in again.'});
     });
-
   }
   else
   {
-    let credentials = req.body.admin.Email ? {Email:req.body.admin.Email,PassHash:req.body.admin.PassHash} : {Username:req.body.admin.Username,PassHash:req.body.admin.PassHash};
+    let credentials = req.body.admin.Email ? {Email:req.body.admin.Email} : {Username:req.body.admin.Username};
 
     utility.getOne(Admin,credentials)
     .then(admin => {
-      bcrypt.compare(req.body.admin.PassHash,admin.data.PassHash, (err,match) => {
+      console.log(admin)
+      bcrypt.compare(req.body.admin.PassHash,admin.PassHash, (err,match) => {
           if(match) {
             if(req.body.admin.Username) {
               req.session.Email = req.body.admin.Username;
@@ -31,7 +31,7 @@ const login = (req,res) => {
             else {
               req.session.Email = req.body.admin.Email;
             }
-          req.session.PassHash = admin.data.PassHash;
+          req.session.PassHash = admin.PassHash;
           res.json({status:'True',msg:'Admin logged in.'});
         }
         else {
@@ -40,6 +40,7 @@ const login = (req,res) => {
       });
     })
     .catch(err => {
+      console.log(err)
       res.json({status:'False',msg:'Invalid username or password.'});
     });
   }

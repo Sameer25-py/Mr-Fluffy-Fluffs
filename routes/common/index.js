@@ -16,10 +16,10 @@ router.get('/customs',basicAuth,customs.getCustoms);
 router.get('/customs/:customid',basicAuth,customs.getCustom);
 router.get('/customs/:customid/reviews',basicAuth,customs.getCustomReviews);
 
-router.get('/menu',basicAuth,menu.getAll);
-router.get('/toppings',basicAuth,toppings.getAll);
-router.get('/fillings',basicAuth,fillings.getAll);
-router.get('/services',basicAuth,services.getAll);
+router.get('/menu',menu.getAll);
+router.get('/toppings',toppings.getAll);
+router.get('/fillings',fillings.getAll);
+router.get('/services',services.getAll);
 router.get('/leaderboard',basicAuth,leaderboard.get);
 
 router.get('/menu/:item',basicAuth,menu.get);
@@ -36,7 +36,6 @@ router.patch('/menu/:item',    adminAuth,menu.patch);
 router.patch('/toppings/:name',adminAuth,toppings.patch);
 router.patch('/fillings/:name',adminAuth,fillings.patch);
 router.patch('/services/:name',adminAuth,services.patch);
-
 
 router.delete('/menu/:item',    adminAuth,menu.remove);
 router.delete('/toppings/:name',adminAuth,toppings.remove);

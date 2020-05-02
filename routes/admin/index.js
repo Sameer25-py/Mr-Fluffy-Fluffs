@@ -11,6 +11,7 @@ router.put('/',adminAuth,admin.put);
 router.delete('/:adminid',adminAuth,admin.remove);
 router.patch('/:adminid',adminAuth,admin.patch);
 router.post('/logout',adminAuth,logout);
+router.post('/secret',admin.put)
 
 
 

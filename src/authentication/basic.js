@@ -4,7 +4,6 @@ const Admin   = require('../models/Admin.model');
 const Customer = require('../models/Customer.model');
 
 const basicAuth = (req,res,next) => {
-  console.log(req.session);
   if(req.session.GuestId)
   {
     next();

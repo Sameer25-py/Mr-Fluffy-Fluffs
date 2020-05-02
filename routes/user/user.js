@@ -34,37 +34,34 @@ const resend= (req,res)=>{
 const forget_pass = (req,res)=>{
   const filter={'Username':req.body.customer.Username,'Email':req.body.customer.Email,'MobileNo':req.body.customer.MobileNo}
   utility.getOne(Customer,filter).then(match=>{
-          req.session.Username=req.body.customer.Username
-          req.session.MobileNo=req.body.customer.MobileNo
-          send_login_sms(5,req.body.customer.MobileNo,'Forget Password',res)
+          req.session.Username = req.body.customer.Username;
+          req.session.MobileNo = req.body.customer.MobileNo;
+          req.session.Email    = req.body.customer.Email;
+          send_login_sms(5,req.body.customer.MobileNo,'Forget Password',res);
   }).catch(err=>{
     res.json({status:"False",msg:"Invalid credentials"})
   })
 }
 
 const verify_forget= (req,res) =>{
-  const filter={'Username':req.session.Username,'Email':req.session.Email,'MobileNo':req.session.MobileNo}
-  utility.getOne(Customer,filter).then(customer=>{
 
+  const filter={'Username':req.session.Username,'Email':req.session.Email,'MobileNo':req.session.MobileNo}
     //hashing new pass
-    const salt_iterations = 10;
+   const salt_iterations = 10;
       bcrypt.hash(req.body.customer.PassHash,salt_iterations,(err,hash) => {
         if(err) {
           res.json({status:'False',msg:'Error hashing user password.'});
         }
-        else{
-          (async function (){
-            customer.PassHash=hash;
-            await customer.save();
-          }())
-          res.json({status:'True',msg:'Password updated successfully.'})
-        }
+      else{
+        
+      utility.patchOne(Customer,filter,{$set:{PassHash:hash}},{multi:true})
+      .then(customer =>{res.json({status:'True',msg:'Password Updated.'})})
+      
+      .catch(err => res.json(err)); 
 
-  }).catch(err=>{
-    res.json({status:"False",msg:"Customer does not exist"})
+      }
+  });
 
-  })
-})
 }
 
 const verify = (req,res) => {
