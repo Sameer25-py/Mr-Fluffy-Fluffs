@@ -53,9 +53,9 @@ const verify_forget= (req,res) =>{
           res.json({status:'False',msg:'Error hashing user password.'});
         }
       else{
-        
+
       utility.patchOne(Customer,filter,{$set:{PassHash:hash}},{multi:true})
-      .then(customer =>{res.json({status:'True',msg:'Password Updated.'})})
+      .then(customer =>{req.session.destroy();res.json({status:'True',msg:'Password Updated.'})})
       
       .catch(err => res.json(err)); 
 
