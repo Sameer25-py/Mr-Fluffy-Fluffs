@@ -20,7 +20,8 @@ const login = (req,res) => {
    {
     let credentials = req.body.customer.Email ? {Email:req.body.customer.Email} : {Username:req.body.customer.Username};
     utility.getOne(Customer,credentials).then(customer=>
-      {bcrypt.compare(req.body.customer.PassHash,customer.PassHash, (err,match) => {
+      {
+        bcrypt.compare(req.body.customer.PassHash,customer.PassHash, (err,match) => {
           if(match) {
             if(req.body.customer.Username) {
               req.session.Username = req.body.customer.Username;
@@ -34,9 +35,7 @@ const login = (req,res) => {
         else {
           res.json({status:'False',msg:'Invalid username or password.'});
         }
-      }).catch(err => {
-      res.json({status:'False',msg:'Invalid username or password.'});
-    });
+      })
     }).catch(err=>{
       res.json({status:'False',msg:'Invalid username or password.'});
     })

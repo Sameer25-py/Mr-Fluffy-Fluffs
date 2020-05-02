@@ -68,19 +68,27 @@ const verify_forget= (req,res) =>{
 }
 
 const verify = (req,res) => {
-  let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
-  utility.getOne(Customer,credentials)
-  .then(customer => {
-    if(customer.Verified) {
-      res.json({status:'True',msg:'Customer already verified.'});
+  let data = {
+
+        _id      : new mongoose.Types.ObjectId(),
+        FullName : req.session.FullName,
+        Username : req.session.Username,
+        PassHash : req.session.PassHash,
+        Address  : req.session.Address,
+        Email    : req.session.Email,
+        MobileNo : req.session.MobileNo,
+        Verified : 1
+
+};
+
+utility.put(Customer,data).then(customer => {
+    if(customer){
+      res.json({status:"True",msg:"Customer Added Successfully"})
     }
-    else {
-      utility.patchOne(Customer,credentials,{$set:{Verified:1}},{multi:true})
-      .then(customer => res.json({status:'True',msg:'Customer verified.'}))
-      .catch(err => res.json(err));
+    else{
+      res.json({status:"False",msg:"Unable to Add Customer"})
     }
-  })
-  .catch(err => res.json(err));
+}).catch(err => res.json(err))
 }
 
 const remove = (req,res) => {
@@ -117,6 +125,9 @@ const put = (req,res) => {
     utility.getOne(Customer,{Username:req.body.customer.Username})
     .then(customer => res.json({status:'False',msg:'Username already present.'}))
     .catch(err => {
+    utility.getOne(Customer,{MobileNo:req.body.customer.MobileNo}).then(customer=>{
+      res.json({status:'False',msg:'MobileNo already present.'})
+    }).catch(err=>{
 
     //hashing
      const salt_iterations = 10;
@@ -125,31 +136,20 @@ const put = (req,res) => {
           res.json({status:'False',msg:'Error hashing user password.'});
         }
         else{
-          let data = {
-
-            _id      : new mongoose.Types.ObjectId(),
-            FullName : req.body.customer.FullName,
-            Username : req.body.customer.Username,
-            PassHash : hash,
-            Address  : req.body.customer.Address,
-            Email    : req.body.customer.Email,
-            MobileNo : req.body.customer.MobileNo,
-            Verified : 0
-
-          };
-          utility.put(Customer,data).then(customer => {
             //setting cookies
             req.session.Username = req.body.customer.Username;
             req.session.PassHash = hash;
             req.session.MobileNo = req.body.customer.MobileNo;
+            req.session.Email    = req.body.customer.Email;
+            req.session.Address  = req.body.customer.Address;
+            req.session.FullName = req.body.customer.FullName;
 
             //send code
             (async function (){
             await send_login_sms(5,req.body.customer.MobileNo,'Login',res)
             }());
-          
-          }).catch(err => res.json(err))
         }
+      });
     }); 
   });
 });
