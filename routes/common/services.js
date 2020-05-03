@@ -35,9 +35,8 @@ const put = (req,res) => {
 const patch = (req,res) => {
 
   utility.patchOne(Service,{_id:req.params.name},{$set:req.body.service},{multi:true})
-  .then(data => res.json(data))
-  .catch(err => res.json(err));
-
+  .then(data => res.json({status:"True",msg:"Service updated"}))
+  .catch(err => res.json(err)); 
 };
 
 const remove = (req,res) => {

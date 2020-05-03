@@ -4,7 +4,7 @@ const Topping  = require('../../src/models/Toppings.model');
 
 const get = (req,res) => {
 
-  utility.getOne(Topping,{_id:req.params.name})
+  utility.getOne(Topping,{Name:req.params.name})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
@@ -34,7 +34,7 @@ const put = (req,res) => {
 
 const patch = (req,res) => {
 
-  utility.patchOne(Topping,{_id:req.params.name},{$set:req.body.topping},{multi:true})
+  utility.patchOne(Topping,{Name:req.params.name},{$set:req.body.topping},{multi:true})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
@@ -42,7 +42,7 @@ const patch = (req,res) => {
 
 const remove = (req,res) => {
 
-  utility.removeOne(Topping,{_id:req.params.name})
+  utility.removeOne(Topping,{Name:req.params.name})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 

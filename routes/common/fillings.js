@@ -4,7 +4,7 @@ const Filling  = require('../../src/models/Fillings.model');
 
 const get = (req,res) => {
 
-  utility.getOne(Filling,{_id:req.params.name})
+  utility.getOne(Filling,{Name:req.params.name})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
@@ -34,7 +34,7 @@ const put = (req,res) => {
 
 const patch = (req,res) => {
 
-  utility.patchOne(Filling,{_id:req.params.name},{$set:req.body.filling},{multi:true})
+  utility.patchOne(Filling,{Name:req.params.name},{$set:req.body.filling},{multi:true})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
@@ -42,7 +42,7 @@ const patch = (req,res) => {
 
 const remove = (req,res) => {
 
-  utility.removeOne(Filling,{_id:req.params.name})
+  utility.removeOne(Filling,{Name:req.params.name})
   .then(data => res.json(data))
   .catch(err => res.json(err))
 

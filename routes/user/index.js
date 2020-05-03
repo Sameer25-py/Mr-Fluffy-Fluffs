@@ -11,7 +11,6 @@ const adminAuth = require('../../src/authentication/admin');
 const exceptAuth = require('../../src/authentication/exception')
 
 
-
 router.get('/',userAuth,user.get);
 router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);
@@ -24,7 +23,7 @@ router.post('/resend',user.resend);
 router.post('/forget',user.forget_pass);
 
 router.put('/',             user.put);
-router.put('/cart',userAuth,cart.put);
+router.put('/cart',userAuth,cart.put);	
 router.put('/customs',userAuth, customs.put);
 
 router.patch('/', userAuth ,user.patch);

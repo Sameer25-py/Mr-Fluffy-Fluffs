@@ -28,17 +28,18 @@ const put = (req,res) => {
   Price       : req.body.pancake.Price
 };
 
+utility.getOne(Pancake,{Name:req.body.pancake.Name}).then(cake=>{
+    res.json({status:"False",msg:"Pancake with same name already Exists."})
+}).catch(err=>{
   utility.put(Pancake,data)
-  .then(data => res.json(data))
+  .then(data => res.json({status:"True",msg:"Pancake added"}))
   .catch(err => res.json(err));
-
-
-
+});
 };
 
 const patch = (req,res) => {
 
-  utility.patchOne(Pancake,{_id:req.params.item},{$set:req.body.pancake},{multi:true})
+  utility.patchOne(Pancake,{Name:req.params.item},{$set:req.body.pancake},{multi:true})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
@@ -46,7 +47,7 @@ const patch = (req,res) => {
 
 const remove = (req,res) => {
 
-  utility.removeOne(Pancake,{_id:req.params.item})
+  utility.removeOne(Pancake,{Name:req.params.item})
   .then(data => res.json(data))
   .catch(err => res.json(err));
 
