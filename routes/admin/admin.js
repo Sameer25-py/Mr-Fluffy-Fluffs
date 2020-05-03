@@ -4,7 +4,7 @@ const bcrypt    = require('bcrypt');
 const Admin    = require('../../src/models/Admin.model');
 const twilio = require('twilio')(
   'ACb2072416a86aefe3b8916b81ad59123d',
-  'd3384a8a8595c9c70ca615ff645b9bc4'  
+  'a1fc3e8d841a66c5492c339e56494032'  
 )
 
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
@@ -52,6 +52,7 @@ const forget_pass = (req,res)=>{
       send_login_sms(5,req.body.admin.MobileNo,"Admin Forget Password",res);
 
   }).catch(err=>{
+    console.log(err)
     res.json({status:"False",msg:"Invalid Credentials"})
   });
 
