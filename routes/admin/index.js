@@ -6,8 +6,8 @@ const adminAuth   = require('../../src/authentication/admin');
 const exceptAuth  =  require('../../src/authentication/exception2')
 
 
-router.get('/',adminAuth,admin.getAll);
-router.get('/:adminid',adminAuth,admin.get);
+//router.get('/',adminAuth,admin.getAll);
+router.get('/',adminAuth,admin.get);
 
 router.put('/',adminAuth,admin.put);
 

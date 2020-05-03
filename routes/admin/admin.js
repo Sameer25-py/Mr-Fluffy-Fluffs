@@ -28,8 +28,10 @@ const send_login_sms=(x,target,type,res)=>{
 
 const get = (req,res) => {
 
-  utility.getOne(Admin,{_id:req.params.adminid})
-  .then(data => res.json(data))
+  let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+
+  utility.getOne(Admin,credentials)
+  .then(admin => res.json({status:'True',msg:'Admin found.',data:admin}))
   .catch(err => res.json(err));
 
 }
