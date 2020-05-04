@@ -102,7 +102,15 @@ const remove = (req,res) => {
 const patch = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.patchOne(Customer,credentials,{$set:req.body.customer},{multi:true})
-  .then(customer => res.json({status:'True',msg:'Customer updated.'}))
+  .then(customer =>{
+    if (req.body.customer.Email){
+      req.session.Email = req.body.customer.Email
+    } 
+    if (req.body.customer.Username){
+      req.session.Username= req.body.customer.Username
+    }
+    res.json({status:'True',msg:'Customer updated.'})
+  })
   .catch(err => res.json(err)); 
 
 };
