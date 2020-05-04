@@ -18,7 +18,7 @@ const session_options = {
     resave:true,
     name:'fluffy_fluffs_session_id',
     cookie: {
-      maxAge:60*60*24*2000, // valid for 1 hour only.
+      maxAge:60*60*24*4000, // valid for 2 hours only.
       httpOnly:true,
       secure:false, // for production use true
       sameSite:true

@@ -3,27 +3,26 @@ schema = mongoose.Schema
 
 Cart= new schema({
 	_id: schema.Types.ObjectId,
-	Number_Items:Number,
+	Total_items:Number,
 	Total:Number,
 	Tax:Number,
-	Items:[{
-		pancake:{
-		type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pancake'},
-        topping:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Topping'}]
-		}],
-	custom:{
-		type: mongoose.Schema.Types.ObjectId,
-        ref: 'Custom'
-	},
+	Date:String,
+	Items:[
+		{
+			pancake:{
+				Name:String,
+				Price:Number
+			},
+			toppings:{
+				Name:String,
+				Price:Number
+			}	
+		}
+	],
 	Customer:{
-		type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer'}
-			
-	
-})
+		Username:String	
+		}	
+});
 
 
 module.exports=mongoose.model('Cart',Cart)

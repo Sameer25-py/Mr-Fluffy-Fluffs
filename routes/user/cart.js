@@ -15,7 +15,9 @@ let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.sess
 };
 
 const put = (req,res) => {
-  res.json({status:'False',msg:'In development.'});
+ 	let data={
+ 		
+ 	}
 };
 
 const remove = (req,res) => {

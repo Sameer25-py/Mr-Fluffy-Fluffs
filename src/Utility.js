@@ -98,6 +98,7 @@ const removeOne = (model,id) => {
   return new Promise((res,rej) => {
     try {
       model.deleteOne(id,(err,result) => {
+        console.log(result)
         if(err) {
           rej({status:'False',msg:'Internal Database Error.'});
         }

@@ -27,7 +27,7 @@ const put = (req,res) => {
     }
 
     utility.put(Service,data)
-    .then(data => res.json(data))
+    .then(data => res.json({status:"True",msg:"Service added."}))
     .catch(err => res.json(err));
 
 };
@@ -42,7 +42,7 @@ const patch = (req,res) => {
 const remove = (req,res) => {
 
   utility.removeOne(Service,{_id:req.params.name})
-  .then(data => res.json(data))
+  .then(data => res.json({status:"True",msg:"Service removed"}))
   .catch(err => res.json(err));
 
 };

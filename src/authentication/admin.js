@@ -3,7 +3,7 @@ const utility = require('../Utility');
 const Admin   = require('../models/Admin.model');
 
 const adminAuth = (req,res,next) => {
-  console.log(req.session)
+  
 
   if((req.session.Username || req.session.Email) && req.session.PassHash)
   { 

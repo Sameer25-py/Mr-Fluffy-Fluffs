@@ -39,18 +39,16 @@ utility.getOne(Pancake,{Name:req.body.pancake.Name}).then(cake=>{
 
 const patch = (req,res) => {
 
-  utility.patchOne(Pancake,{Name:req.params.item},{$set:req.body.pancake},{multi:true})
-  .then(data => res.json(data))
+  utility.patchOne(Pancake,{_id:req.params.item},{$set:req.body.pancake},{multi:true})
+  .then(data => res.json({status:"True",msg:"Item updated"}))
   .catch(err => res.json(err));
 
 };
 
 const remove = (req,res) => {
-
-  utility.removeOne(Pancake,{Name:req.params.item})
-  .then(data => res.json(data))
+  utility.removeOne(Pancake,{_id:req.params.item})
+  .then(data => res.json({status:"True",msg:"Item deleted"}))
   .catch(err => res.json(err));
-
 };
 
 
