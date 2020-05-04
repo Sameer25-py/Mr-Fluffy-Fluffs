@@ -10,10 +10,10 @@ const login = (req,res) => {
   {
     let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash}
     utility.getOne(Customer,credentials)
-    .then(customer => res.json({status:'False',msg:`Customer ${customer.Username} already logged in.`}))
+    .then(customer => res.json({status:'False',msg:`Customer ${Customer.Username} already logged in.`}))
     .catch(err => {
       req.session.destroy();
-      res.json({status:'False',msg:`Customer ${customer.Username}'s credentials has been changed. Please log in again.`});
+      res.json({status:'False',msg:`Customer ${Customer.Username}'s credentials has been changed. Please log in again.`});
     });
   }
   else

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const utility  = require('../../src/Utility');
 const Cart     = require('../../src/models/Cart.model');
+const Customer = require('../../src/models/Customer.model');
+const Order    = require('../../src/models/Order.model');
 
 const get = (req,res) => {
 
