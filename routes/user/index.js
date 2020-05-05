@@ -23,7 +23,7 @@ router.post('/resend',user.resend);
 router.post('/forget',user.forget_pass);
 
 router.put('/',             user.put);
-router.put('/cart',userAuth,cart.put);	
+router.put('/cart',cart.put);	
 router.put('/customs',userAuth, customs.put);
 
 router.patch('/', userAuth ,user.patch);

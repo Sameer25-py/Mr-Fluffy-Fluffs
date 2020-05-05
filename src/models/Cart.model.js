@@ -3,25 +3,24 @@ schema = mongoose.Schema
 
 Cart= new schema({
 	_id: schema.Types.ObjectId,
-	Total_items:Number,
+	Subtotal:Number,
+	Deliveryfee:Number,
 	Total:Number,
-	Tax:Number,
 	Date:String,
-	Items:[
-		{
-			pancake:{
+	Pancakes:[
+		{	Quantity:Number,
+			Name:String,
+			Price:Number,
+			Addons:[
+				{
 				Name:String,
-				Price:Number
-			},
-			toppings:{
-				Name:String,
-				Price:Number
-			}	
+				Price:String
+				}
+			]	
 		}
+
 	],
-	Customer:{
-		Username:String	
-		}	
+	Status:String
 });
 
 
