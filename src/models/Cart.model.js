@@ -20,7 +20,9 @@ Cart= new schema({
 		}
 
 	],
-	Status:String
+	Status:String,
+	Tracking_ID:String,
+	Address : String
 });
 
 

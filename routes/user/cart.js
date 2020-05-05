@@ -5,6 +5,29 @@ const Customer = require('../../src/models/Customer.model');
 const Order    = require('../../src/models/Order.model');
 const Pancake  = require('../../src/models/Pancake.model');
 const Topping  = require('../../src/models/Toppings.model');
+const twilio = require('twilio')(
+  'ACb2072416a86aefe3b8916b81ad59123d',
+  'a1fc3e8d841a66c5492c339e56494032'  
+)
+const generate= (x) => Math.floor(Math.random()*90000) + 10000;
+
+const send_login_sms=(code,target,res)=>{
+
+  twilio.messages.create({
+  from:'+12512996973',
+  to: target,
+  body:`Mr.Fluffy Fluffs\n Your order has been placed. Order TrackingID: ${code.toString()}`
+},(err,message)=>{
+  if (err){
+    console.log(err)
+   res.json({status:'False',msg:'MobileNo not reachable'})
+  }
+  else if (message){
+   res.json({status:'True',code:code,msg:"Order has been placed."})
+  }
+})
+}
+
 
 
 
@@ -19,7 +42,10 @@ let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.sess
 };
 
 const put = (req,res) => {
+	let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+
 	cart = req.body.cart.items;
+	code = generate(5)
 	let data={
 		_id         : new mongoose.Types.ObjectId(),
 		Subtotal    : req.body.cart.Subtotal,
@@ -27,10 +53,14 @@ const put = (req,res) => {
 		Date        : new Date().toISOString().slice(0,10),
 		Total       : req.body.cart.Subtotal + req.body.cart.Deliveryfee,
 		Pancakes    : req.body.cart.Pancakes,
-		Status      : "Pending"
+		Status      : "Pending",
+		Tracking_ID : code,
+		MobileNo	: req.body.cart.MobileNo,
+		Address     : req.body.cart.Address
 	};
 	utility.put(Cart,data).then(success=>{
-		res.json({status:"True",msg:"Order has been Placed."})
+		send_login_sms(code,req.body.cart.MobileNo,res)
+
 	}).catch(err=>{
 		res.json({status:"False",msg:"Unable to Place order."})	
 	})
