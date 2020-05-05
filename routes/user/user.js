@@ -3,11 +3,11 @@ const utility  = require('../../src/Utility');
 const Customer = require('../../src/models/Customer.model');
 const bcrypt   = require('bcrypt');
 const Code   = require('../../src/models/Code.model')
+const cred     = require('../twilio')
 const twilio = require('twilio')(
-  'ACb2072416a86aefe3b8916b81ad59123d',
-  'a1fc3e8d841a66c5492c339e56494032'  
+  cred.S_ID,
+  cred.AUTH  
 )
-
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
 
 const send_login_sms=(x,target,type,res)=>{

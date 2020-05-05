@@ -5,9 +5,10 @@ const Customer = require('../../src/models/Customer.model');
 const Order    = require('../../src/models/Order.model');
 const Pancake  = require('../../src/models/Pancake.model');
 const Topping  = require('../../src/models/Toppings.model');
+const cred     = require('../twilio')
 const twilio = require('twilio')(
-  'ACb2072416a86aefe3b8916b81ad59123d',
-  'a1fc3e8d841a66c5492c339e56494032'  
+  cred.S_ID,
+  cred.AUTH  
 )
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
 
