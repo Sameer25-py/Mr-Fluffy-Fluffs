@@ -58,8 +58,9 @@ const put = (req,res) => {
 		Tracking_ID : code,
 		MobileNo	: req.body.cart.MobileNo,
 		Address     : req.body.cart.Address,
-		Username    : req.session.Username || req.session.email
+		customer  	: req.session.Username 
 	};
+	console.log(data)
 	utility.put(Cart,data).then(success=>{
 		send_login_sms(code,req.body.cart.MobileNo,res)
 
@@ -74,10 +75,12 @@ const remove = (req,res) => {
   res.json(`remove ${req.params['item']} from cart of ${req.params['username']}`);
 };
 
-const removeAll = (req,res) => {
+const getAll = (req,res)=>{
+	credentials = {customer:req.session.Username};
+	utility.getAll(Cart,credentials)
+    .then(history => res.json({status:'True',msg:'Order History found.',data:history}))
+    .catch(err => res.json(err));
 
-}
+};	
 
-module.exports = {
-  get,put,remove,removeAll
-};
+module.exports = {get,put,remove,getAll};

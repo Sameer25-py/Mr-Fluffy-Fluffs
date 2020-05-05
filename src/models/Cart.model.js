@@ -3,6 +3,7 @@ schema = mongoose.Schema
 
 Cart= new schema({
 	_id: schema.Types.ObjectId,
+	customer:String,
 	Subtotal:Number,
 	Deliveryfee:Number,
 	Total:Number,
@@ -23,7 +24,7 @@ Cart= new schema({
 	Status:String,
 	Tracking_ID:String,
 	Address : String,
-	Username:String
+	
 });
 
 

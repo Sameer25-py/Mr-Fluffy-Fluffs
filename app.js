@@ -25,7 +25,7 @@ const session_options = {
     },
     rolling:true,
     store:new session_store({mongooseConnection:mongoose.connection}),
-    clear_interval:7200,
+    clear_interval:7200, // two hours
     genid: function(req) {
       return uuid();
     }
