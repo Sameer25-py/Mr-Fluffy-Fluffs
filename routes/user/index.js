@@ -16,6 +16,8 @@ router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);
 router.get('/customs',userAuth,customs.getUserCustoms);
 router.get('/cart/history',userAuth,cart.getAll)
+//router for ayan
+router.get('/details',userAuth,user.details)
 
 router.post('/login', login);
 router.post('/verify',user.verify);

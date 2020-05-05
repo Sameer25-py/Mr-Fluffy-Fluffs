@@ -25,7 +25,8 @@ const put = (req,res) => {
   _id         : new mongoose.Types.ObjectId(),
   Name        : req.body.pancake.Name,
   Description : req.body.pancake.Description,
-  Price       : req.body.pancake.Price
+  Price       : req.body.pancake.Price,
+  Path        : `http://mr-fluffy-fluffs.herokuapp.com/api/images/${req.body.pancake.Name}`
 };
 
 utility.getOne(Pancake,{Name:req.body.pancake.Name}).then(cake=>{
@@ -46,9 +47,9 @@ const patch = (req,res) => {
 };
 
 const remove = (req,res) => {
-  utility.removeOne(Pancake,{_id:req.params.item})
+  utility.removeOne(Pancake,{_id:req.params.itemid})
   .then(data => res.json({status:"True",msg:"Item deleted"}))
-  .catch(err => res.json(err));
+  .catch(err => console.log(err));
 };
 
 

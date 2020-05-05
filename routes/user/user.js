@@ -64,6 +64,22 @@ const verify_forget= (req,res) =>{
 
 }
 
+const details = (req,res)=>{
+  let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+  utility.getOne(Customer,credentials).then(customer=>{
+    //phone' : '+923009495206', 'address' : '136-D Sui Gas Society', 'payment': 'Cash on Delivery'
+    let data={ 
+        phone:customer.MobileNo,
+        address:customer.Address,
+        payment:'Cash on Delivery'
+
+    }
+    res.json([data])
+  }).catch(err=>{
+    res.json({status:"False",msg:'User details not found.'})
+  })
+}
+
 const verify = (req,res) => {
   let data = {
 
@@ -169,4 +185,4 @@ const get = (req,res) => {
   .catch(err => res.json(err));
 };
 
-module.exports = {remove,patch,put,get,verify,resend,forget_pass,verify_forget};
+module.exports = {details,remove,patch,put,get,verify,resend,forget_pass,verify_forget};

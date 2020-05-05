@@ -24,7 +24,7 @@ router.get('/images/:name',(req,res)=>{
 				else{
 					res.json({status:"False",msg:"Image not Found"})
 				}
-})
+});
 router.get('/customs',basicAuth,customs.getCustoms);
 router.get('/customs/:customid',basicAuth,customs.getCustom);
 router.get('/customs/:customid/reviews',basicAuth,customs.getCustomReviews);
@@ -50,7 +50,7 @@ router.patch('/toppings/:name',adminAuth,toppings.patch);
 router.patch('/fillings/:name',adminAuth,fillings.patch);
 router.patch('/services/:name',adminAuth,services.patch);
 
-router.delete('/menu/:item',    adminAuth,menu.remove);
+router.delete('/menu/:itemid',    adminAuth,menu.remove);
 router.delete('/toppings/:name',adminAuth,toppings.remove);
 router.delete('/fillings/:name',adminAuth,fillings.remove);
 router.delete('/services/:name',adminAuth,services.remove);
