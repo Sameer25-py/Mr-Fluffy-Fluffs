@@ -9,9 +9,22 @@ const fillings    = require('./fillings');
 const services    = require('./services');
 const customs     = require('./customs');
 const user        = require('./user');
+const fs          = require('fs')
 
 router.get('/user/:userid',basicAuth,user.get);
-
+//setting up image route
+router.get('/images/:name',(req,res)=>{
+		//setting path
+		path = __dirname + `/images/${req.params.name}.jpg`
+	
+		//checking if image exists
+			if (fs.existsSync(path)) {
+				res.sendFile(`images/${req.params.name}.jpg`,{ root: __dirname})
+				}
+				else{
+					res.json({status:"False",msg:"Image not Found"})
+				}
+})
 router.get('/customs',basicAuth,customs.getCustoms);
 router.get('/customs/:customid',basicAuth,customs.getCustom);
 router.get('/customs/:customid/reviews',basicAuth,customs.getCustomReviews);
