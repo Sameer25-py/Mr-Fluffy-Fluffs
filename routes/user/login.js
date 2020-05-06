@@ -7,7 +7,7 @@ const Customer = require('../../src/models/Customer.model');
 const login = (req,res) => {
 
   if((req.session.Username || req.session.Email) && req.session.PassHash)
-  {
+  { 
     let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash}
     utility.getOne(Customer,credentials)
     .then(customer => res.json({status:'False',msg:`Customer ${Customer.Username} already logged in.`}))

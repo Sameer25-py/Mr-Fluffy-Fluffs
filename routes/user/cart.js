@@ -58,9 +58,8 @@ const put = (req,res) => {
 		Tracking_ID : code,
 		MobileNo	: req.body.cart.MobileNo,
 		Address     : req.body.cart.Address,
-		customer  	: req.session.Username 
+		customer  	: req.body.cart.Username 
 	};
-	console.log(data)
 	utility.put(Cart,data).then(success=>{
 		send_login_sms(code,req.body.cart.MobileNo,res)
 
