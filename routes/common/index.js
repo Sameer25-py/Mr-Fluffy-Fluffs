@@ -22,7 +22,7 @@ router.get('/images/:name',(req,res)=>{
 				res.sendFile(`images/${req.params.name}.jpg`,{ root: __dirname})
 				}
 				else{
-					res.json({status:"False",msg:"Image not Found"})
+					res.sendFile(`images/mock.png`,{ root: __dirname})
 				}
 });
 router.get('/customs',basicAuth,customs.getCustoms);
