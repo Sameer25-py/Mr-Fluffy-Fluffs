@@ -3,6 +3,7 @@ const utility   = require('../../src/Utility');
 const bcrypt    = require('bcrypt');
 const Admin    = require('../../src/models/Admin.model');
 const cred     = require('../twilio')
+const Cart   = require('../../src/models/Cart.model')
 const twilio = require('twilio')(
   cred.S_ID,
   cred.AUTH  
@@ -53,7 +54,6 @@ const forget_pass = (req,res)=>{
       send_login_sms(5,req.body.admin.MobileNo,"Admin Forget Password",res);
 
   }).catch(err=>{
-    console.log(err)
     res.json({status:"False",msg:"Invalid Credentials"})
   });
 
@@ -120,5 +120,21 @@ const put = (req,res) => {
   });
 
 };
+const manage_orders = (req,res)=>{
+  utility.patchOne(Cart,{Tracking_ID:req.params.id},{$set:req.body.order},{multi:true})
+  .then(success=>{
+    res.json({status:"True",msg:"Order state updated"})
+  }).catch(err=>{
+    res.json({status:"False",msg:"Order state cannot be updated"})
+  })
+}
+const get_orders = (req,res)=>{
+  utility.getAll(Cart,{}).then(orders=>{
+    res.json({status:"True",msg:orders})
+  }).catch(err=>{
+    console.log(err)
+    res.json({status:"False",msg:"Order history not Found."})
+  })
+};
 
-module.exports = {remove,patch,put,getAll,get,forget_pass,verify_forget};
+module.exports = {get_orders,manage_orders,remove,patch,put,getAll,get,forget_pass,verify_forget};

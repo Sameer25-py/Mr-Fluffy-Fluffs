@@ -50,10 +50,11 @@ router.patch('/toppings/:name',adminAuth,toppings.patch);
 router.patch('/fillings/:name',adminAuth,fillings.patch);
 router.patch('/services/:name',adminAuth,services.patch);
 
-router.delete('/menu/:itemid',    adminAuth,menu.remove);
-router.delete('/toppings/:name',adminAuth,toppings.remove);
+
+router.delete('/menu/:itemid',   menu.remove);
+router.delete('/toppings/:name',toppings.remove);
 router.delete('/fillings/:name',adminAuth,fillings.remove);
-router.delete('/services/:name',adminAuth,services.remove);
+router.delete('/services/:name',services.remove);
 
 
 module.exports = router;

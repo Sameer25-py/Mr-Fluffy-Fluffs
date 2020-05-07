@@ -1,14 +1,16 @@
-const router = require('express').Router();
-const login  = require('./login');
-const admin  = require('./admin');
-const logout = require('./logout');
+const router 	  = require('express').Router();
+const login  	  = require('./login');
+const admin  	  = require('./admin');
+const logout      = require('./logout');
 const adminAuth   = require('../../src/authentication/admin');
-const exceptAuth  =  require('../../src/authentication/exception2')
+const exceptAuth  =  require('../../src/authentication/exception2');
+const Cart        = require('../user/cart')
 
 
 //router.get('/',adminAuth,admin.getAll);
 router.get('/',adminAuth,admin.get);
-
+router.get('/orders',admin.get_orders);
+router.patch('/orders/:id',admin.manage_orders);
 router.put('/',adminAuth,admin.put);
 
 router.patch('/verify-forget',exceptAuth,admin.verify_forget)
