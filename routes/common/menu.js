@@ -26,7 +26,7 @@ const put = (req,res) => {
   Name        : req.body.pancake.Name,
   Description : req.body.pancake.Description,
   Price       : req.body.pancake.Price,
-  Path        : `http://mr-fluffy-fluffs.herokuapp.com/api/images/${req.body.pancake.Name}`
+  Path        : `http://mr-fluffy-fluffs.herokuapp.com/api/common/images/${req.body.pancake.Name}`
 };
 
 utility.getOne(Pancake,{Name:req.body.pancake.Name}).then(cake=>{
