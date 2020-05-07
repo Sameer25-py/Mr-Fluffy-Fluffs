@@ -1,3 +1,4 @@
+//checking if guest is logged in
 const guestAuth = (req,res,next) => {
 
   if(req.session.GuestId)

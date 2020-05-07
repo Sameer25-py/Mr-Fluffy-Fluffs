@@ -8,8 +8,9 @@ const twilio = require('twilio')(
   cred.S_ID,
   cred.AUTH  
 )
+//generating 5 digit code
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
-
+//sending sms
 const send_login_sms=(x,target,type,res)=>{
   code= generate(x)
   twilio.messages.create({
@@ -26,14 +27,15 @@ const send_login_sms=(x,target,type,res)=>{
   }
 })
 }
-
+//resend sms
 const resend= (req,res)=>{
   send_login_sms(5,req.session.MobileNo,'Login',res)
 }
-
+//forget pass protocol 
 const forget_pass = (req,res)=>{
   const filter={'Username':req.body.customer.Username,'Email':req.body.customer.Email,'MobileNo':req.body.customer.MobileNo}
   utility.getOne(Customer,filter).then(match=>{
+          //setting cookies
           req.session.Username = req.body.customer.Username;
           req.session.MobileNo = req.body.customer.MobileNo;
           req.session.Email    = req.body.customer.Email;
@@ -42,7 +44,7 @@ const forget_pass = (req,res)=>{
     res.json({status:"False",msg:"Invalid credentials"})
   })
 }
-
+//verifying valid user requestin new password
 const verify_forget= (req,res) =>{
 
   const filter={'Username':req.session.Username,'Email':req.session.Email,'MobileNo':req.session.MobileNo}
@@ -53,7 +55,7 @@ const verify_forget= (req,res) =>{
           res.json({status:'False',msg:'Error hashing user password.'});
         }
       else{
-
+        //patching new password
       utility.patchOne(Customer,filter,{$set:{PassHash:hash}},{multi:true})
       .then(customer =>{req.session.destroy();res.json({status:'True',msg:'Password Updated.'})})
       
@@ -63,7 +65,7 @@ const verify_forget= (req,res) =>{
   });
 
 }
-
+//sending details to show on cart screen
 const details = (req,res)=>{
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.getOne(Customer,credentials).then(customer=>{
@@ -80,6 +82,7 @@ const details = (req,res)=>{
   })
 }
 
+//verifying new user auth and check for existing user present in the database
 const verify = (req,res) => {
   let data = {
 
@@ -93,7 +96,7 @@ const verify = (req,res) => {
         Verified : 1
 
 };
-
+//adding to datbase
 utility.put(Customer,data).then(customer => {
     if(customer){
       res.json({status:"True",msg:"Customer Added Successfully"})
@@ -103,7 +106,7 @@ utility.put(Customer,data).then(customer => {
     }
 }).catch(err => res.json(err))
 }
-
+//removing user
 const remove = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
   utility.removeOne(Customer,credentials)
@@ -114,9 +117,10 @@ const remove = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//patching user details except password
 const patch = (req,res) => {
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+  //searching database
   utility.patchOne(Customer,credentials,{$set:req.body.customer},{multi:true})
   .then(customer =>{
     if (req.body.customer.Email){
@@ -133,19 +137,21 @@ const patch = (req,res) => {
 
 const put = (req,res) => {
   
-
+  //checking fields if fulfilled
   if(!(req.body.customer.Email && req.body.customer.Username && req.body.customer.PassHash && req.body.customer.MobileNo))
   {
     res.json({status:'False',msg:'Required fields are not set.'});
     return;
   }
-
+  //checking for existing user
   utility.getOne(Customer,{Email:req.body.customer.Email})
   .then(customer => res.json({status:'False',msg:'Email already present.'}))
   .catch(err => {
+    //checking usernaem
     utility.getOne(Customer,{Username:req.body.customer.Username})
     .then(customer => res.json({status:'False',msg:'Username already present.'}))
     .catch(err => {
+      //checking mobileno
     utility.getOne(Customer,{MobileNo:req.body.customer.MobileNo}).then(customer=>{
       res.json({status:'False',msg:'MobileNo already present.'})
     }).catch(err=>{
@@ -165,7 +171,7 @@ const put = (req,res) => {
             req.session.Address  = req.body.customer.Address;
             req.session.FullName = req.body.customer.FullName;
 
-            //send code
+            //send verification code
             (async function (){
             await send_login_sms(5,req.body.customer.MobileNo,'Login',res)
             }());
@@ -175,9 +181,9 @@ const put = (req,res) => {
   });
 });
 };
-
+//get sepcific user credentials
 const get = (req,res) => {
-
+  //checking if the user is logged in 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
 
   utility.getOne(Customer,credentials)

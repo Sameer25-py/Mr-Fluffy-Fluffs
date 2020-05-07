@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//basic utility modular functions of database which will be used throughout the app.
 const getOne = (model,id) => {
   return new Promise((res,rej) => {
     try {

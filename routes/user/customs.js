@@ -5,7 +5,7 @@ const Customer = require('../../src/models/Customer.model');
 const Review   = require('../../src/models/Review.model');
 
 
-
+//custom pancake user credentials verification
 const getUserCustoms = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
@@ -20,7 +20,7 @@ const getUserCustoms = (req,res) => {
 
 };
 
-
+//adding new custome pancake to the database
 const put = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
@@ -45,7 +45,7 @@ const put = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//removing all custom pancakes of a specific customer. 
 const removeAll = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
@@ -59,7 +59,7 @@ const removeAll = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//romoving specific pancake from database 
 const remove = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};

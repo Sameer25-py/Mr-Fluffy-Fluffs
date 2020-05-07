@@ -3,14 +3,18 @@ const utility = require('../Utility');
 const Admin   = require('../models/Admin.model');
 const Customer = require('../models/Customer.model');
 
+//basic authentication for accessing services.
 const basicAuth = (req,res,next) => {
+  //checking guest authorization
   if(req.session.GuestId)
   {
     next();
   }
+  //checking customer authorization
   else if((req.session.Username || req.session.Email) && req.session.PassHash)
   {
     let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
+    //searching database
     utility.getOne(Customer,credentials)
     .then(customer => {
       if(customer.Verified) {
@@ -21,6 +25,7 @@ const basicAuth = (req,res,next) => {
       }
     })
     .catch(err => {
+      //searching database
       utility.getOne(Admin,credentials)
       .then(result => next())
       .catch(err => res.json(err));

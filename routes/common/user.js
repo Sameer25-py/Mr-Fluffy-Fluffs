@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const utility = require('../../src/Utility');
 const Customer = require('../../src/models/Customer.model');
 
+//getting a particular user cred (only username and full name)
 const get = (req,res) => {
 
   utility.getOne(Customer,{Username:req.params.userid})

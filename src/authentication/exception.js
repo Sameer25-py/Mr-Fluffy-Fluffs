@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const utility = require('../Utility');
 const Customer = require('../models/Customer.model');
-
+//exception auth implemented for forgetting password protocol for customer
 const exceptionAuth=(req,res,next)=>{
   if (req.session.Username && req.session.Email && req.session.MobileNo){
   const filter={'Username':req.session.Username,'Email':req.session.Email,'MobileNo':req.session.MobileNo}
+  //checking database if user exists
   utility.getOne(Customer,filter).then(match=>{
         next()
 

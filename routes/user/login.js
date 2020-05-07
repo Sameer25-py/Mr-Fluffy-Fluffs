@@ -4,11 +4,13 @@ const utility = require('../../src/Utility');
 const bcrypt  = require('bcrypt');
 const Customer = require('../../src/models/Customer.model');
 
+//login protocol of customer
 const login = (req,res) => {
 
   if((req.session.Username || req.session.Email) && req.session.PassHash)
   { 
     let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash}
+    //checking fot exisiting user
     utility.getOne(Customer,credentials)
     .then(customer => res.json({status:'False',msg:`Customer ${Customer.Username} already logged in.`}))
     .catch(err => {
@@ -18,6 +20,7 @@ const login = (req,res) => {
   }
   else
    {
+    //setting up new cookies
     let credentials = req.body.customer.Email ? {Email:req.body.customer.Email} : {Username:req.body.customer.Username};
     utility.getOne(Customer,credentials).then(customer=>
       {

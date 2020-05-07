@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const {uuid} = require('uuidv4');
 
+//generating new id for guest
 router.post('/login', (req,res) => {
   if(req.session.GuestId) {
     res.json({status:'False',msg:'Guest already logged in.',GuestId:req.session.GuestId});
   }
   else {
-
+    //checkgin logged in guest
     if((req.session.Username || req.session.Email) && req.session.PassHash) {
       res.json({status:'False',msg:'User already logged in. Cannot login as a guest now.'});
       return;
@@ -17,7 +18,7 @@ router.post('/login', (req,res) => {
   }
 
 });
-
+//logging out guest
 router.post('/logout', (req,res) => {
   if(req.session.GuestId) {
     req.session.destroy();

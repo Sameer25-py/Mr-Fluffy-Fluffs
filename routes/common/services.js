@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const utility  = require('../../src/Utility');
 const Service  = require('../../src/models/Service.model');
 
+//standard functions for managing services
 const get = (req,res) => {
 
   utility.getOne(Service,{_id:req.params.name})

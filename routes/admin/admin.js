@@ -8,9 +8,9 @@ const twilio = require('twilio')(
   cred.S_ID,
   cred.AUTH  
 )
-
+//generating auth code
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
-
+//sedning sms
 const send_login_sms=(x,target,type,res)=>{
   code= generate(x)
   twilio.messages.create({
@@ -27,7 +27,7 @@ const send_login_sms=(x,target,type,res)=>{
   }
 })
 }
-
+//gettign admin credentials
 const get = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
@@ -37,7 +37,7 @@ const get = (req,res) => {
   .catch(err => res.json(err));
 
 }
-
+//getting all admins
 const getAll = (req,res) => {
 
   utility.getAll(Admin,{})
@@ -45,6 +45,7 @@ const getAll = (req,res) => {
   .catch(err => res.json(err));
 
 }
+//forgetting pass protol for admin
 const forget_pass = (req,res)=>{
   const  filter = {"Username":req.body.admin.Username,"Email":req.body.admin.Email};
   utility.getOne(Admin,filter).then(admin=>{
@@ -58,6 +59,7 @@ const forget_pass = (req,res)=>{
   });
 
 }
+//verify protocol
 const verify_forget= (req,res) =>{
 
   const filter={'Username':req.session.Username,'Email':req.session.Email}

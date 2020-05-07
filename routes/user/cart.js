@@ -10,8 +10,9 @@ const twilio = require('twilio')(
   cred.S_ID,
   cred.AUTH  
 )
+//function to gernerate 5digit code
 const generate= (x) => Math.floor(Math.random()*90000) + 10000;
-
+//function to send sms
 const send_login_sms=(code,target,res)=>{
 
   twilio.messages.create({
@@ -31,7 +32,7 @@ const send_login_sms=(code,target,res)=>{
 
 
 
-
+//function to get cart from database
 const get = (req,res) => {
 
 let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
@@ -41,7 +42,7 @@ let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.sess
   .catch(err => res.json(err));
 
 };
-
+//function for adding items in the cart
 const put = (req,res) => {
 	let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};
 
@@ -69,11 +70,12 @@ const put = (req,res) => {
 	
 
 };
-
+//function of removing a cart object
 const remove = (req,res) => {
   res.json(`remove ${req.params['item']} from cart of ${req.params['username']}`);
 };
 
+//function to get the order history of a specific customer
 const getAll = (req,res)=>{
 	credentials = {customer:req.session.Username};
 	utility.getAll(Cart,credentials)

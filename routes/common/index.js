@@ -25,6 +25,7 @@ router.get('/images/:name',(req,res)=>{
 					res.sendFile(`images/mock.png`,{ root: __dirname})
 				}
 });
+//all routes for common
 router.get('/customs',basicAuth,customs.getCustoms);
 router.get('/customs/:customid',basicAuth,customs.getCustom);
 router.get('/customs/:customid/reviews',basicAuth,customs.getCustomReviews);

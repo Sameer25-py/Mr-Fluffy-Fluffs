@@ -14,6 +14,8 @@ Service= require('./Service.model')
 //const db ='mongodb://localhost/FluffyFluffs'
 //mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
 
+//populating database 
+
 //customer
 customer = new Customer({
 	_id: new mongoose.Types.ObjectId(),

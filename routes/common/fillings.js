@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const utility  = require('../../src/Utility');
 const Filling  = require('../../src/models/Fillings.model');
 
+//getting particular filling
 const get = (req,res) => {
 
   utility.getOne(Filling,{Name:req.params.name})
@@ -9,7 +10,7 @@ const get = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//getting all the fillings
 const getAll = (req,res) => {
 
   utility.getAll(Filling,{})
@@ -17,7 +18,7 @@ const getAll = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//puttting new filling
 const put = (req,res) => {
 
   let data = {
@@ -31,7 +32,7 @@ const put = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//patching existing filling
 const patch = (req,res) => {
 
   utility.patchOne(Filling,{Name:req.params.name},{$set:req.body.filling},{multi:true})
@@ -39,7 +40,7 @@ const patch = (req,res) => {
   .catch(err => res.json(err));
 
 };
-
+//remove fillign
 const remove = (req,res) => {
 
   utility.removeOne(Filling,{Name:req.params.name})

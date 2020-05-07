@@ -4,7 +4,7 @@ const Cart     = require('../../src/models/Cart.model');
 const Pancake  = require('../../src/models/Pancake.model');
 
 quantities = {}
-
+//leaderboard functionality
 const get = (req,res) => {
 	utility.getAll(Cart,{}).then(menu=>{
 		//getting quantites ordered for all the pancakes

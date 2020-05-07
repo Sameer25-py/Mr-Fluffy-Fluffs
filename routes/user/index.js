@@ -1,3 +1,4 @@
+//router for routing within user routes
 const router = require('express').Router();
 
 const login  = require('./login');
@@ -10,7 +11,7 @@ const userAuth   = require('../../src/authentication/user');
 const adminAuth = require('../../src/authentication/admin');
 const exceptAuth = require('../../src/authentication/exception')
 
-
+//all the routes related to user application
 router.get('/',userAuth,user.get);
 router.get('/cart',userAuth,cart.get);
 router.get('/reviews',userAuth,reviews.getAll);

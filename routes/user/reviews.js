@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const utility  = require('../../src/Utility');
 const Review   = require('../../src/models/Review.model');
 const Customer = require('../../src/models/Customer.model');
-
+//getting all reviews if a customer
 const getAll = (req,res) => {
 
   let credentials = req.session.Email ? {Email:req.session.Email,PassHash:req.session.PassHash} : {Username:req.session.Username,PassHash:req.session.PassHash};

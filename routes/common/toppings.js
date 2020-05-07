@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const utility  = require('../../src/Utility');
 const Topping  = require('../../src/models/Toppings.model');
-
+//standard functions for managing toppings/addons
 const get = (req,res) => {
 
   utility.getOne(Topping,{_id:req.params.name})

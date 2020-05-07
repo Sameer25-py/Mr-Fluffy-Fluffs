@@ -12,6 +12,7 @@ const {uuid}        = require('uuidv4');
 const mongoose      = require('mongoose');
 const morgan        = require('morgan')
 
+//setting sessions options for cookies storage
 const session_options = {
     secret:"123",
     saveUninitialized:true,
@@ -24,13 +25,14 @@ const session_options = {
       sameSite:true
     },
     rolling:true,
+    //storing session data in mongo
     store:new session_store({mongooseConnection:mongoose.connection}),
     clear_interval:7200, // two hours
     genid: function(req) {
-      return uuid();
+      return uuid(); //unique guestid 
     }
 }
-
+//setting up server and middlewares
 app.use(morgan('dev'))
 app.use(session(session_options));
 app.use(express.urlencoded({extended:true}));
